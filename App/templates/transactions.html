@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='nav.css') }}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar rounded mt-30 bg-info mb-4">
+        <a href="transction.html" class="navbar-brand">
+            <img class="img-fluid" style="width: 40px; height: 40px;" src="../static/logo.jpg" alt="logo">
+        </a> 
+        <div><b>MOMO DATA DASHBOARD</b></div>
+        <div>
+            <ul class="nav justify-content-center nav-tabs nav-justified">
+                <li class="nav-item"><a class="nav-link" href="{{url_for('dashboard.dashboard') }}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.transaction') }}">Transactions</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.visuals') }}">Charts</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard.contactus') }}">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid flex-fill">
+        <div class="p-3 border rounded mb-4" style="background-color: #e1e3e4;">
+            <form action="{{ url_for('dashboard.transaction') }}" method="POST">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <label for="startdate" class="form-label mb-0">start-date:</label>
+                            <input type="date" class="form-control" id="startdate" name="startdate">
+                        </div>
+                        <div class="me-3">
+                            <label for="enddate" class="form-label mb-0">end-date:</label>
+                            <input type="date" class="form-control" id="enddate" name="enddate">
+                        </div>
+                        <button type="submit" class="btn btn-warning mt-3">apply filter</button>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <input class="form-control" type="text" placeholder="filter by type" style="max-width: 200px;" list="list-transaction" name="filterbytype">
+                        <button type="submit" class="btn btn-primary">apply</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <datalist id="list-transaction">
+            <option value="Incoming Money"></option>
+            <option value="Payments to Code Holders"></option>
+            <option value="Transfers to Mobile Numbers"></option>
+            <option value="Bank Deposits"></option>
+            <option value="Airtime Bill Payments"></option>
+            <option value="Transactions Initiated by Third Parties"></option>
+            <option value="Cash Power Bill Payments"></option>
+            <option value="Withdrawals from Agents"></option>
+            <option value="Internet and Voice Bundle Purchases"></option>
+        </datalist>
+
+        <h5>Recent Transactions</h5>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Amount (RWF)</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category, transactions in data.items() %}
+                        {% for transaction in transactions %}
+                            <tr>
+                                <td>{{ transaction.tra_type.replace('_', ' ') }}</td>
+                                <td>{{ transaction.amount|int }}</td>
+                                <td>{{ transaction.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <p class="mb-0">MTN MOMO DATA ANALYTICS DASHBOARD | 2025</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/chart.js"></script> 
+</body>
+</html>
