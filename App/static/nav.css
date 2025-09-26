@@ -2,3 +2,20 @@ a {
     color: black;
     text-decoration: none;
 }
+/* Custom CSS for the card to ensure responsiveness */
+.card.shadow-sm {
+    /* Remove the fixed w-25 and h-50 from the HTML. The default width will be 100% of its container. */
+    width: 100%;
+    /* Optional: Set a max-width so it doesn't stretch too wide on huge screens */
+    max-width: 400px; /* Adjust this value as needed */
+    margin: 0 auto; /* Center the card horizontally if it has a max-width */
+}
+
+/* Media Query for larger screens (e.g., tablets and desktops) */
+@media (min-width: 768px) {
+    .card.shadow-sm {
+        /* You can set a different max-width for larger screens if 400px is too small,
+           or you can revert to a percentage-based width if desired, but max-width is generally safer. */
+        max-width: 500px; 
+    }
+}
